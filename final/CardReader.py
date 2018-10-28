@@ -335,7 +335,7 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
     print 17, data
     if (not data.isSuccess): return False # wrong card
 
-    apdu = Sam.WRITE2 + (courseIndex * 9 + 6) + [lengthu+1] + Student.Course.LENGTH_WRITE + data.response
+    apdu = Sam.WRITE2 + [courseIndex * 9 + 6] + [lengthu+1] + Student.Course.LENGTH_WRITE + data.response
     data = __transmit(serviceSc, apdu, Card.READ_SUCCESS)
 
     print 18, data
