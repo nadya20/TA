@@ -84,7 +84,7 @@ class Sam(Card):
 
 def __transmit(cardService, apduSelect, expectedSw1):
     response, sw1, sw2 = cardService.connection.transmit(apduSelect)
-
+    print response, sw1, sw2
     # return isSucces and responce
     return Data(sw1 == expectedSw1, response, sw2)
 
@@ -339,8 +339,7 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
     data = __transmit(serviceSc, apdu, Card.READ_SUCCESS)
 
     print 18, data
-    if (not data.isSuccess): 
-        return True
+    return data.isSuccess
 
 
 if __name__ == "__main__":
