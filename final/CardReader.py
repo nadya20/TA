@@ -15,7 +15,7 @@ class Course(object):
         self.attendance = attendace
 
     def __repr__(self):
-        return (self.subject, self.attendance)
+        return str(self.subject) + " " + str(self.attendance)
 
 class Card(object):
     SELECT = [0x00, 0xA4, 0x00, 0x00, 0x02]
