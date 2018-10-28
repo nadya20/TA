@@ -81,7 +81,7 @@ def __transmit(cardService, apduSelect, expectedSw1):
 
 def __splitCourse(chunk):
     course = hl2bs(chunk[:-3])
-    attendace = int(hl2bs(chunk[-3:]))
+    attendace = hl2bs(chunk[-3:])
     return Course(course, attendace)
 
 
