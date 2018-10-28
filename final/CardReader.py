@@ -113,3 +113,6 @@ def readLecture():
     MATKUL = hl2bs(data.response[48:])
 
     return Lecture(NIP, NAMA, MATKUL)
+
+if __name__ == "__main__":
+    readLecture()
