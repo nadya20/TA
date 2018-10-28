@@ -332,14 +332,14 @@ if __name__ == "__main__":
     # else:
     #     print "Bukan Dosen cuk"
 
-    student = readStudent(cardrequestSc)
+    # student = readStudent(cardrequestSc)
 
-    if (student.id != None and student.courses != None):
-        print student.id, student.courses
-    else:
-        print "bukan mahasiswa cuk"
+    # if (student.id != None and student.courses != None):
+    #     print student.id, student.courses
+    # else:
+    #     print "bukan mahasiswa cuk"
 
-    # cardtypeSam = ATRCardType(Sam.ATR)
-    # cardrequestSam = CardRequest(timeout=None, cardType=cardtypeSam)
+    cardtypeSam = ATRCardType(Sam.ATR)
+    cardrequestSam = CardRequest(timeout=None, cardType=cardtypeSam)
 
-    # print writeStudentCourse(cardrequestSc, cardrequestSam, 2, 10)
+    print writeStudentCourse(cardrequestSc, cardrequestSam, 2, 10)
