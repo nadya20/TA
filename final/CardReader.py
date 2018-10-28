@@ -115,4 +115,5 @@ def readLecture():
     return Lecture(NIP, NAMA, MATKUL)
 
 if __name__ == "__main__":
-    print readLecture()
+    lecture = readLecture()
+    print lecture.id, lecture.name, lecture.subject
