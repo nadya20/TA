@@ -16,6 +16,8 @@ class Course(object):
 
 class Card(object):
     SELECT = [0x00, 0xA4, 0x00, 0x00, 0x02]
+    OPEN_SUCCESS = 0x61
+    READ_SUCCESS = 0x90
 
 class Person(Card):
     ATR = toBytes("3B 13 96 13 09 17")
@@ -38,7 +40,7 @@ class Student(Person):
 
     def __init__(self, id, courses = []):
         self.id = id
-        self.subject = courses
+        self.courses = courses
 
     class ID (object):
         EF_SC = [0x50, 0x01]
@@ -77,29 +79,100 @@ def __transmit(cardService, apduSelect, expectedSw1):
     return Data(sw1 == expectedSw1, response)
 
 
+def __splitCourse(chunk):
+    course = hl2bs(chunk[:-3])
+    attendace = int(hl2bs(chunk[-3:]))
+    return Course(course, attendace)
+
+
+def __readStudentId(cardResquest):
+    service = cardResquest.waitforcard()
+    service.connection.connect()
+    
+    # Call MF 
+    apdu = Card.SELECT + Person.MF_SC
+    data = __transmit(service, apdu, Card.OPEN_SUCCESS)
+
+    if (not data.isSuccess): return None # wrong card
+
+    # Call DF
+    apdu = Card.SELECT + Student.DF_SC
+    data = __transmit(service, apdu, Card.OPEN_SUCCESS)
+    if (not data.isSuccess): return None # not a lecture
+
+    # Call EF
+    apdu = Card.SELECT + Student.ID.EF_SC
+    data = __transmit(service, apdu, Card.OPEN_SUCCESS)
+    if (not data.isSuccess): return None # wrong card
+    
+    # Call READ
+    apdu = Student.READ + Student.ID.LENGTH
+    data = __transmit(service, apdu, Card.READ_SUCCESS)
+    if (not data.isSuccess): return None # wrong card
+
+    # DATA
+    NIM = hl2bs(data.response[:10])
+
+    return NIM
+
+
+def __readStudentCourse(cardResquest):
+    service = cardResquest.waitforcard()
+    service.connection.connect()
+    
+    # Call MF 
+    apdu = Card.SELECT + Person.MF_SC
+    data = __transmit(service, apdu, Card.OPEN_SUCCESS)
+
+    if (not data.isSuccess): return None # wrong card
+
+    # Call DF
+    apdu = Card.SELECT + Student.DF_SC
+    data = __transmit(service, apdu, Card.OPEN_SUCCESS)
+    if (not data.isSuccess): return None # not a lecture
+
+    # Call EF
+    apdu = Card.SELECT + Student.Course.EF_SC
+    data = __transmit(service, apdu, Card.OPEN_SUCCESS)
+    if (not data.isSuccess): return None # wrong card
+    
+    # Call READ
+    apdu = Student.READ + Student.Course.LENGTH
+    data = __transmit(service, apdu, Card.READ_SUCCESS)
+    if (not data.isSuccess): return None # wrong card
+
+    # DATA
+    # NIM = hl2bs(data.response[:10])
+    
+    chunks = [ data.response [i*9 : i*9 + 9] for i in range(8)]
+    courses = [__splitCourse(chunk) for chunk in chunks]
+
+    return courses
+
+
 def readLecture(cardResquest):
     service = cardResquest.waitforcard()
     service.connection.connect()
     
     # Call MF 
     apdu = Card.SELECT + Lecture.MF_SC
-    data = __transmit(service, apdu, 0x61)
+    data = __transmit(service, apdu, Card.OPEN_SUCCESS)
 
     if (not data.isSuccess): return None # wrong card
 
     # Call DF
     apdu = Card.SELECT + Lecture.DF_SC
-    data = __transmit(service, apdu, 0x61)
+    data = __transmit(service, apdu, Card.OPEN_SUCCESS)
     if (not data.isSuccess): return None # not a lecture
 
-    # Call DF
+    # Call EF
     apdu = Card.SELECT + Lecture.EF_SC
-    data = __transmit(service, apdu, 0x61)
+    data = __transmit(service, apdu, Card.OPEN_SUCCESS)
     if (not data.isSuccess): return None # wrong card
     
     # Call READ
     apdu = Lecture.READ + Lecture.LENGTH
-    data = __transmit(service, apdu, 0x90)
+    data = __transmit(service, apdu, Card.READ_SUCCESS)
     if (not data.isSuccess): return None # wrong card
 
 
@@ -112,12 +185,27 @@ def readLecture(cardResquest):
 
     return Lecture(NIP, NAMA, MATKUL)
 
+
+def readStudent(cardrequest):
+    nim = __readStudentId(cardrequest)
+    courses = __readStudentCourse(cardrequest)
+
+    return Student(nim, courses)
+
+
 if __name__ == "__main__":
     cardtype1 = ATRCardType(Person.ATR)
     cardrequest1 = CardRequest(timeout=None, cardType=cardtype1)
 
-    lecture = readLecture(cardrequest1)
-    if (lecture != None):
-        print lecture.id, lecture.name, lecture.subject
+    # lecture = readLecture(cardrequest1)
+    # if (lecture != None):
+    #     print lecture.id, lecture.name, lecture.subject
+    # else:
+    #     print "Bukan Dosen cuk"
+
+    student = readStudent(cardrequest1)
+
+    if (student.id != None and student.courses != None):
+        print student.id, student.courses
     else:
-        print "Bukan Dosen cuk"
+        print "bukan mahasiswa cuk"
