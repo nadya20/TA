@@ -5,9 +5,10 @@ from smartcard.util import toHexString, toBytes, hl2bs
 import time
 
 class Data(object):
-    def __init__(self, isSuccess = False, response = None):
+    def __init__(self, isSuccess = False, response = None, sw2 = None):
         self.isSuccess = isSuccess
         self.response = response
+        self.sw2 = sw2
 
 class Course(object):
     def __init__(self, subject = "CS0121", attendace = 90):
@@ -19,12 +20,16 @@ class Course(object):
 
 class Card(object):
     SELECT = [0x00, 0xA4, 0x00, 0x00, 0x02]
+    MF_SC = [0x3F, 0x00] 
     OPEN_SUCCESS = 0x61
     READ_SUCCESS = 0x90
 
+    GR_SC = [0x00, 0xC0, 0x00, 0x00]
+    GC_SC=	[0x00, 0x84, 0x00, 0x00, 0x01]
+    GU_SC = [0x00, 0xCA, 0x00, 0x00, 0x07]
+
 class Person(Card):
     ATR = toBytes("3B 13 96 13 09 17")
-    MF_SC = [0x3F, 0x00] 
 
 class Lecture(Person):
     DF_SC = [0x40, 0x00]
@@ -52,9 +57,11 @@ class Student(Person):
     class Course (object):
         EF_SC = [0x50, 0x02]
         LENGTH = [0x48]
+        LENGTH_WRITE = [0x03]
 
-class Xamp(Card):
-    ATR = toBytes("3B 13 96 13 09 17")
+
+class Sam(Card):
+    ATR = toBytes("3B 10 96")
     MUA = [0x00, 0x82, 0x00, 0x00, 0x10]
 
     WRITE2 = [0x00, 0xD0] 
@@ -63,11 +70,8 @@ class Xamp(Card):
     # byte = [0x00, 0x00]
 
     KODE1_PRESENSI= [0x45,0x4C,0x48,0x34,0x41,0x33,0x31,0x00,0x00] # XXXAAA100
-
-    GR_SC = [0x00, 0xC0, 0x00, 0x00]
-    GC_SC=	[0x00, 0x84, 0x00, 0x00, 0x01]
-    GU_SC = [0x00, 0xCA, 0x00, 0x00, 0x07]
     
+    DF_SAM = [0x40, 0x00]
     EF_SAM = [0x40, 0x02]
     LK_SAM = [0x51, 0x36, 0x03, 0x83, 0x08]
     GC_SAM = [0x00, 0x84, 0x00, 0x00, 0x10]
@@ -76,10 +80,10 @@ class Xamp(Card):
 
 
 def __transmit(cardService, apduSelect, expectedSw1):
-    response, sw1, _ = cardService.connection.transmit(apduSelect)
+    response, sw1, sw2 = cardService.connection.transmit(apduSelect)
 
     # return isSucces and responce
-    return Data(sw1 == expectedSw1, response)
+    return Data(sw1 == expectedSw1, response, sw2)
 
 
 def __splitCourse(chunk):
@@ -190,16 +194,137 @@ def readLecture(cardResquest):
     return Lecture(NIP, NAMA, MATKUL)
 
 
-def readStudent(cardrequest):
-    nim = __readStudentId(cardrequest)
-    courses = __readStudentCourse(cardrequest)
+def readStudent(cardResquest):
+    nim = __readStudentId(cardResquest)
+    courses = __readStudentCourse(cardResquest)
 
     return Student(nim, courses)
 
 
+def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAttendance):
+    serviceSc = cardResquestSc.waitforcard()
+    serviceSc.connection.connect()
+
+    serviceSam = cardResquestSc.waitforcard()
+    serviceSam.connection.connect()
+
+    # MF Sam call
+    apdu = Card.SELECT + Card.MF_SC
+    data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # DF Sam call
+    apdu = Card.SELECT + Sam.DF_SAM
+    data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # EF Sam call
+    apdu = Card.SELECT + Sam.EF_SAM
+    data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # GU Sc call
+    apdu = Sam.GU_SC
+    data = __transmit(serviceSc, apdu, Card.READ_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # LK and WK call
+    apdu = Sam.LK_SAM + data.response + Sam.WK_SAM
+    data = __transmit(serviceSam, apdu, Card.READ_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # MF sc call
+    apdu = Card.SELECT + Card.MF_SC
+    data = __transmit(serviceSc, apdu, Card.OPEN_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+    
+    # DF sc call
+    apdu = Card.SELECT + Student.DF_SC
+    data = __transmit(serviceSc, apdu, Card.OPEN_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # GC sc call
+    apdu = Card.GC_SC + Sam.WK_SAM
+    data = __transmit(serviceSc, apdu, Card.OPEN_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # GR sc call
+    apdu = Card.GR_SC + [data.sw2]
+    data = __transmit(serviceSc, apdu, Card.READ_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # GC sam call
+    apdu = Sam.GC_SAM + data.response
+    data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # GR sam call
+    apdu = Sam.GR_SAM + [data.sw2]
+    data = __transmit(serviceSam, apdu, Card.READ_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # MUA SC call
+    apdu = Sam.MUA + data.response
+    data = __transmit(serviceSc, apdu, Card.OPEN_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # GR SC call
+    apdu = Card.GR_SC + [data.sw2]
+    data = __transmit(serviceSc, apdu, Card.READ_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # MUA sam call
+    apdu = Sam.MUA + data.response
+    data = __transmit(serviceSam, apdu, Card.READ_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # EF Sc call
+    apdu = Card.SELECT + Student.Course.EF_SC
+    data = __transmit(serviceSc, apdu, Card.OPEN_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # Write to card BEGIN HERE
+    # SAM encript
+    nextAttendance = str(currentAttendance + 10) # add 10 %
+    attendanceInHex = [ord(char) for char in nextAttendance]
+
+    apdu = Sam.ENCRIPT + Student.Course.LENGTH_WRITE + attendanceInHex  ####### TO DO
+    data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    # GR sam
+    lengthu = data.sw2
+    apdu = Sam.GR_SAM + [data.sw2]
+    data = __transmit(serviceSam, apdu, Card.READ_SUCCESS)
+
+    if (not data.isSuccess): return False # wrong card
+
+    apdu = Sam.WRITE2 + (courseIndex * 9 + 6) + [lengthu+1] + Student.Course.LENGTH_WRITE + data.response
+    data = __transmit(serviceSc, apdu, Card.READ_SUCCESS)
+
+    if (not data.isSuccess): 
+        return True
+
+
 if __name__ == "__main__":
-    cardtype1 = ATRCardType(Person.ATR)
-    cardrequest1 = CardRequest(timeout=None, cardType=cardtype1)
+    cardtypeSc = ATRCardType(Person.ATR)
+    cardrequestSc = CardRequest(timeout=None, cardType=cardtypeSc)
 
     # lecture = readLecture(cardrequest1)
     # if (lecture != None):
@@ -207,9 +332,14 @@ if __name__ == "__main__":
     # else:
     #     print "Bukan Dosen cuk"
 
-    student = readStudent(cardrequest1)
+    # student = readStudent(cardrequest1)
 
-    if (student.id != None and student.courses != None):
-        print student.id, student.courses
-    else:
-        print "bukan mahasiswa cuk"
+    # if (student.id != None and student.courses != None):
+    #     print student.id, student.courses
+    # else:
+    #     print "bukan mahasiswa cuk"
+
+    cardtypeSam = ATRCardType(Sam.ATR)
+    cardrequestSam = CardRequest(timeout=None, cardType=cardtypeSam)
+
+    writeStudentCourse(cardrequestSc, cardrequestSam, 2, 10)
