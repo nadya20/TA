@@ -353,7 +353,7 @@ if __name__ == "__main__":
     # else:
     #     print "Bukan Dosen cuk"
 
-    # student = readStudent(cardrequestSc)
+    student = readStudent(cardrequestSc)
 
     if (student.id != None and student.courses != None):
         print student.id, student.courses
