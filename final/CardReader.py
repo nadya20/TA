@@ -321,6 +321,7 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
     # SAM encript
     nextAttendance = str(currentAttendance + 10) # add 10 %
     attendanceInHex = [ord(char) for char in nextAttendance]
+    if (len(attendanceInHex) < 3): attendanceInHex = [0x30] + attendanceInHex
 
     apdu = Sam.ENCRIPT + Student.Course.LENGTH_WRITE + attendanceInHex  ####### TO DO
     data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
