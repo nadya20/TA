@@ -84,7 +84,7 @@ class Sam(Card):
 
 def __transmit(cardService, apduSelect, expectedSw1):
     response, sw1, sw2 = cardService.connection.transmit(apduSelect)
-    print response, sw1, sw2
+    # print response, sw1, sw2
     # return isSucces and responce
     return Data(sw1 == expectedSw1, response, sw2)
 
@@ -92,6 +92,7 @@ def __transmit(cardService, apduSelect, expectedSw1):
 def __splitCourse(chunk):
     course = hl2bs(chunk[:-3])
     temp_attendace = hl2bs(chunk[-3:])
+    print course, temp_attendace
     attendace = int(temp_attendace) if temp_attendace.isdigit() else 0
     return Course(course, attendace)
 
