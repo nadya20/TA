@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# LOC='current location'
+LOC='/Workplace/MyProject/project-kosong'
+
+echo $LOC
+python2 $LOC/main.py
