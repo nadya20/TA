@@ -326,20 +326,20 @@ if __name__ == "__main__":
     cardtypeSc = ATRCardType(Person.ATR)
     cardrequestSc = CardRequest(timeout=None, cardType=cardtypeSc)
 
-    # lecture = readLecture(cardrequest1)
+    # lecture = readLecture(cardrequestSc)
     # if (lecture != None):
     #     print lecture.id, lecture.name, lecture.subject
     # else:
     #     print "Bukan Dosen cuk"
 
-    # student = readStudent(cardrequest1)
+    student = readStudent(cardrequestSc)
 
-    # if (student.id != None and student.courses != None):
-    #     print student.id, student.courses
-    # else:
-    #     print "bukan mahasiswa cuk"
+    if (student.id != None and student.courses != None):
+        print student.id, student.courses
+    else:
+        print "bukan mahasiswa cuk"
 
-    cardtypeSam = ATRCardType(Sam.ATR)
-    cardrequestSam = CardRequest(timeout=None, cardType=cardtypeSam)
+    # cardtypeSam = ATRCardType(Sam.ATR)
+    # cardrequestSam = CardRequest(timeout=None, cardType=cardtypeSam)
 
-    writeStudentCourse(cardrequestSc, cardrequestSam, 2, 10)
+    # print writeStudentCourse(cardrequestSc, cardrequestSam, 2, 10)
