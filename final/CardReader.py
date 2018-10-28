@@ -77,31 +77,29 @@ def __transmit(cardService, apduSelect, expectedSw1):
     return Data(sw1 == expectedSw1, response)
 
 
-def readLecture():
-    cardtype1 = ATRCardType(Person.ATR)
-    cardrequest1 = CardRequest(timeout=10, cardType=cardtype1)
-    cardservice1 = cardrequest1.waitforcard()
-    cardservice1.connection.connect()
+def readLecture(cardResquest):
+    service = cardResquest.waitforcard()
+    service.connection.connect()
     
     # Call MF 
     apdu = Card.SELECT + Lecture.MF_SC
-    data = __transmit(cardservice1, apdu, 0x61)
+    data = __transmit(service, apdu, 0x61)
 
     if (not data.isSuccess): return None # wrong card
 
     # Call DF
     apdu = Card.SELECT + Lecture.DF_SC
-    data = __transmit(cardservice1, apdu, 0x61)
+    data = __transmit(service, apdu, 0x61)
     if (not data.isSuccess): return None # not a lecture
 
     # Call DF
     apdu = Card.SELECT + Lecture.EF_SC
-    data = __transmit(cardservice1, apdu, 0x61)
+    data = __transmit(service, apdu, 0x61)
     if (not data.isSuccess): return None # wrong card
     
     # Call READ
     apdu = Lecture.READ + Lecture.LENGTH
-    data = __transmit(cardservice1, apdu, 0x90)
+    data = __transmit(service, apdu, 0x90)
     if (not data.isSuccess): return None # wrong card
 
 
@@ -115,5 +113,8 @@ def readLecture():
     return Lecture(NIP, NAMA, MATKUL)
 
 if __name__ == "__main__":
-    lecture = readLecture()
+    cardtype1 = ATRCardType(Person.ATR)
+    cardrequest1 = CardRequest(timeout=None, cardType=cardtype1)
+
+    lecture = readLecture(cardrequest1)
     print lecture.id, lecture.name, lecture.subject
