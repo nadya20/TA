@@ -216,105 +216,90 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
     apdu = Card.SELECT + Card.MF_SC
     data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
 
-    print 1, data
     if (not data.isSuccess): return False # wrong card
 
     # DF Sam call
     apdu = Card.SELECT + Sam.DF_SAM
     data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
 
-    print 2, data
     if (not data.isSuccess): return False # wrong card
 
     # EF Sam call
     apdu = Card.SELECT + Sam.EF_SAM
     data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
 
-    print 3, data
     if (not data.isSuccess): return False # wrong card
 
     # GU Sc call
     apdu = Sam.GU_SC
     data = __transmit(serviceSc, apdu, Card.READ_SUCCESS)
 
-    print 4, data
     if (not data.isSuccess): return False # wrong card
 
     # LK and WK call
     apdu = Sam.LK_SAM + data.response + Sam.WK_SAM
     data = __transmit(serviceSam, apdu, Card.READ_SUCCESS)
 
-    print 5, data
     if (not data.isSuccess): return False # wrong card
 
     # MF sc call
     apdu = Card.SELECT + Card.MF_SC
     data = __transmit(serviceSc, apdu, Card.OPEN_SUCCESS)
 
-    print 6, data
     if (not data.isSuccess): return False # wrong card
     
     # DF sc call
     apdu = Card.SELECT + Student.DF_SC
     data = __transmit(serviceSc, apdu, Card.OPEN_SUCCESS)
 
-    print 7, data
     if (not data.isSuccess): return False # wrong card
 
     # GC sc call
     apdu = Card.GC_SC + Sam.WK_SAM
     data = __transmit(serviceSc, apdu, Card.OPEN_SUCCESS)
 
-    print 8, data
     if (not data.isSuccess): return False # wrong card
 
     # GR sc call
     apdu = Card.GR_SC + [data.sw2]
     data = __transmit(serviceSc, apdu, Card.READ_SUCCESS)
 
-    print 9, data
     if (not data.isSuccess): return False # wrong card
 
     # GC sam call
     apdu = Sam.GC_SAM + data.response
     data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
 
-    print 10, data
     if (not data.isSuccess): return False # wrong card
 
     # GR sam call
     apdu = Sam.GR_SAM + [data.sw2]
     data = __transmit(serviceSam, apdu, Card.READ_SUCCESS)
 
-    print 11, data
     if (not data.isSuccess): return False # wrong card
 
     # MUA SC call
     apdu = Sam.MUA + data.response
     data = __transmit(serviceSc, apdu, Card.OPEN_SUCCESS)
 
-    print 12, data
     if (not data.isSuccess): return False # wrong card
 
     # GR SC call
     apdu = Card.GR_SC + [data.sw2]
     data = __transmit(serviceSc, apdu, Card.READ_SUCCESS)
 
-    print 13, data
     if (not data.isSuccess): return False # wrong card
 
     # MUA sam call
     apdu = Sam.MUA + data.response
     data = __transmit(serviceSam, apdu, Card.READ_SUCCESS)
 
-    print 14, data
     if (not data.isSuccess): return False # wrong card
 
     # EF Sc call
     apdu = Card.SELECT + Student.Course.EF_SC
     data = __transmit(serviceSc, apdu, Card.OPEN_SUCCESS)
 
-    print 15, data
     if (not data.isSuccess): return False # wrong card
 
     # Write to card BEGIN HERE
@@ -326,7 +311,6 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
     apdu = Sam.ENCRIPT + Student.Course.LENGTH_WRITE + attendanceInHex  ####### TO DO
     data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
 
-    print 16, data
     if (not data.isSuccess): return False # wrong card
 
     # GR sam
@@ -334,14 +318,11 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
     apdu = Sam.GR_SAM + [data.sw2]
     data = __transmit(serviceSam, apdu, Card.READ_SUCCESS)
 
-    print 17, data
     if (not data.isSuccess): return False # wrong card
 
-    print 'location', courseIndex * 9 + 6
     apdu = Sam.WRITE2 + [0x00, courseIndex * 9 + 6] + [lengthu+1] + Student.Course.LENGTH_WRITE + data.response
     data = __transmit(serviceSc, apdu, Card.READ_SUCCESS)
 
-    print 18, data
     return data.isSuccess
 
 
