@@ -208,7 +208,7 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
     serviceSc = cardResquestSc.waitforcard()
     serviceSc.connection.connect()
 
-    serviceSam = cardResquestSc.waitforcard()
+    serviceSam = cardResquestSam.waitforcard()
     serviceSam.connection.connect()
 
     # MF Sam call
