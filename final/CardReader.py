@@ -117,7 +117,7 @@ if __name__ == "__main__":
     cardrequest1 = CardRequest(timeout=None, cardType=cardtype1)
 
     lecture = readLecture(cardrequest1)
-    if (lecture == None):
+    if (lecture != None):
         print lecture.id, lecture.name, lecture.subject
     else:
         print "Bukan Dosen cuk"
