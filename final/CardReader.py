@@ -10,7 +10,7 @@ class Data(object):
         self.response = response
 
 class Course(object):
-    def __init__(self, subject = "CS0121", attendace = "90"):
+    def __init__(self, subject = "CS0121", attendace = 90):
         self.subject = subject
         self.attendance = attendace
 
@@ -84,7 +84,8 @@ def __transmit(cardService, apduSelect, expectedSw1):
 
 def __splitCourse(chunk):
     course = hl2bs(chunk[:-3])
-    attendace = hl2bs(chunk[-3:])
+    temp_attendace = hl2bs(chunk[-3:])
+    attendace = int(temp_attendace) if temp_attendace.isdigit() else 0
     return Course(course, attendace)
 
 
