@@ -14,6 +14,9 @@ class Course(object):
         self.subject = subject
         self.attendance = attendace
 
+    def __repr__(self):
+        return (self.subject, self.attendance)
+
 class Card(object):
     SELECT = [0x00, 0xA4, 0x00, 0x00, 0x02]
     OPEN_SUCCESS = 0x61
