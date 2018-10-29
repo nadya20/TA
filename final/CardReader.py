@@ -1,7 +1,7 @@
 from smartcard.CardType import ATRCardType
 from smartcard.CardConnection import CardConnection
 from smartcard.CardRequest import CardRequest
-from smartcard.util import toHexString, toBytes, hl2bs
+from smartcard.util import toHexString, toBytes, hl2bs, bs2hl
 import time
 
 class Data(object):
@@ -307,8 +307,7 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
 
     # Write to card BEGIN HERE
     # SAM encript
-    nextAttendance = str(currentAttendance + 10) # add 10 %
-    attendanceInHex = [ord(char) for char in nextAttendance]
+    attendanceInHex = bs2hl(str(currentAttendance + 10)) # add 10 %
     if (len(attendanceInHex) < 3): attendanceInHex = [0x30] + attendanceInHex
 
     apdu = Sam.ENCRIPT + Student.Course.LENGTH_WRITE + attendanceInHex  ####### TO DO
