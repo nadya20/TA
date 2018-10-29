@@ -125,6 +125,7 @@ def __readStudentId(cardResquest):
     # DATA
     NIM = hl2bs(data.response[:10])
 
+    serviceSc.connection.disconnect()
     return NIM
 
 
@@ -159,6 +160,7 @@ def __readStudentCourse(cardResquest):
     chunks = [ data.response [i*9 : i*9 + 9] for i in range(8)]
     courses = [__splitCourse(chunk) for chunk in chunks]
 
+    serviceSc.connection.disconnect()
     return courses
 
 
@@ -195,6 +197,7 @@ def readLecture(cardResquest):
     # [-14:48] is empty
     MATKUL = hl2bs(data.response[48:])
 
+    serviceSc.connection.disconnect()
     return Lecture(NIP, NAMA, MATKUL)
 
 
@@ -323,6 +326,8 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
     apdu = Sam.WRITE2 + [0x00, courseIndex * 9 + 6] + [lengthu+1] + Student.Course.LENGTH_WRITE + data.response
     data = __transmit(serviceSc, apdu, Card.READ_SUCCESS)
 
+    serviceSc.connection.disconnect()
+    serviceSam.connection.disconnect()
     return data.isSuccess
 
 
