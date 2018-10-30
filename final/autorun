@@ -1,0 +1,4 @@
+#!/bin/bash
+
+curdir=${0%/*}
+python $curdir/main.py
