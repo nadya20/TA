@@ -3,7 +3,6 @@
 import Tkinter as tk
 from PIL import ImageTk, Image
 import os
-from enum import Enum
 
 file_dir = os.path.dirname(os.path.abspath(__file__))
 
