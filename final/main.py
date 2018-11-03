@@ -49,17 +49,17 @@ class App(object):
 
         # lecture page
         self.page_lecture = LecturePage(self.window)
-        self.page_lecture.setData("alif", "alif", "alif")
+        self.page_lecture.setData(self.state.lecture_name, self.state.lecture_nip, self.state.lecture_course)
         self.page_lecture.place(in_=self.window, x=0, y=0, relwidth=1, relheight=1)
 
         # student page
         self.page_student = StudentPage(self.window)
-        self.page_student.setData("alif", "alif", "alif")
+        self.page_student.setData(self.state.student_nim, self.state.student_course, self.state.student_presence)
         self.page_student.place(in_=self.window, x=0, y=0, relwidth=1, relheight=1)
 
         # submit page
         self.page_submit = SubmitPage(self.window)
-        self.page_submit.setData("alif", "alif")
+        self.page_submit.setData(self.state.lecture_course, self.state.total_student)
         self.page_submit.place(in_=self.window, x=0, y=0, relwidth=1, relheight=1)        
 
     def switch(self, page):
