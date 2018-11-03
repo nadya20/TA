@@ -22,12 +22,14 @@ page_main.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
 
 # failed page
 page_failed = tk.Frame(window)
-tk.Label(page_failed, text="failed page").pack()
+img1 = ImageTk.PhotoImage(Image.open(file_dir+"/cross.jpg"))
+tk.Label(page_failed, image=img1).pack()
 page_failed.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
 
 # success page
 page_success = tk.Frame(window)
-tk.Label(page_success, text="success page").pack()
+img2 = ImageTk.PhotoImage(Image.open(file_dir+"/check.jpg"))
+tk.Label(page_success, image=img2).pack()
 page_success.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
 
 # lecture page
@@ -56,5 +58,5 @@ def switch(page):
     page.lift()
 
 # main loop
-switch(page_main)
+switch(page_success)
 window.mainloop()
