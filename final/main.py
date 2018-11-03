@@ -15,6 +15,8 @@ window.resizable(0,0)
 
 # page main
 page_main = tk.Frame(window)
+img = ImageTk.PhotoImage(Image.open(file_dir+"/logo_telu.jpg"))
+tk.Label(page_main, image=img).pack()
 tk.Label(page_main, text="Silahkan Masukkan Kartu Anda").pack()
 tk.Button(page_main, text="Kehadiran").pack()
 page_main.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
@@ -54,8 +56,6 @@ page_submit.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
 def switch(page):
     page.lift()
 
-# img = ImageTk.PhotoImage(Image.open(file_dir+"/logo_telu.png")) 
-
 # main loop
-switch(page_submit)
+switch(page_main)
 window.mainloop()
