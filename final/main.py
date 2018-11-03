@@ -3,73 +3,72 @@
 import Tkinter as tk
 from PIL import ImageTk, Image
 import os
+import threading
+from pages import *
 
 file_dir = os.path.dirname(os.path.abspath(__file__))
 
-# region state
-lecture_name = "Alif"
-lecture_nip = "1000111100"
-lecture_course = "CS012"
+class AppState(object):
+    def __init__(self):
+        self.lecture_name = "Alif"
+        self.lecture_nip = "1000111100"
+        self.lecture_course = "CS012"
 
-student_nim = "1103132163"
-student_course = "CS012"
-student_presence = "90%"
+        self.student_nim = "1103132163"
+        self.student_course = "CS012"
+        self.student_presence = "90%"
 
-total_student = "10"
-# endregion
+        self.total_student = "10"
 
-# window setup
-window = tk.Tk()
-window.title("TA Nadya")
-window.geometry("800x480")
-window.resizable(0,0)
+class App(object):
+    def __init__(self):
 
-def switch(page):
-    page.lift()
+        self.state = AppState()
 
-# region pages
-# page main
-page_main = tk.Frame(window)
-img = ImageTk.PhotoImage(Image.open(file_dir+"/logo_telu.jpg"))
-tk.Label(page_main, image=img).pack()
-tk.Label(page_main, text="Silahkan Masukkan Kartu Anda").pack()
-tk.Button(page_main, command=lambda: switch(page_submit), text="Kehadiran").pack()
-page_main.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
+        # window setup
+        self.window = tk.Tk()
+        self.window.title("TA Nadya")
+        self.window.geometry("800x480")
+        self.window.resizable(0,0)
 
-# failed page
-page_failed = tk.Frame(window)
-img1 = ImageTk.PhotoImage(Image.open(file_dir+"/cross.jpg"))
-tk.Label(page_failed, image=img1).pack()
-page_failed.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
+        self.create_pages()
+        self.page_student.lift() # select first page
 
-# success page
-page_success = tk.Frame(window)
-img2 = ImageTk.PhotoImage(Image.open(file_dir+"/check.jpg"))
-tk.Label(page_success, image=img2).pack()
-page_success.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
+    def create_pages(self):
+        # page main
+        self.page_main = MainPage(self.window, file_dir+"/logo_telu.jpg", self.handle_click)
+        self.page_main.place(in_=self.window, x=0, y=0, relwidth=1, relheight=1)
 
-# lecture page
-page_lecture = tk.Frame(window)
-tk.Label(page_lecture, text="Nama Dosen: " + lecture_name).pack()
-tk.Label(page_lecture, text="NIP: " + lecture_nip).pack()
-tk.Label(page_lecture, text="Kode Mata Kuliah: " + lecture_course).pack()
-page_lecture.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
+        # failed page
+        self.page_failed = FailedPage(self.window, file_dir+"/cross.jpg")
+        self.page_failed.place(in_=self.window, x=0, y=0, relwidth=1, relheight=1)
 
-# student page
-page_student = tk.Frame(window)
-tk.Label(page_student, text="NIM: " + student_nim).pack()
-tk.Label(page_student, text="Kode Mata Kuliah: " + student_course).pack()
-tk.Label(page_student, text="Presensi: " + student_presence).pack()
-page_student.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
+        # success page
+        self.page_success = SuccessPage(self.window, file_dir+"/check.jpg")
+        self.page_success.place(in_=self.window, x=0, y=0, relwidth=1, relheight=1)
 
-# submit page
-page_submit = tk.Frame(window)
-tk.Label(page_submit, text="Kode Mata Kuliah: " + lecture_course).pack()
-tk.Label(page_submit, text="Jumlah Mahasiswa: " + total_student).pack()
-tk.Button(page_submit, command=lambda: switch(page_main), text="Kehadiran").pack()
-page_submit.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
-# endregion
+        # lecture page
+        self.page_lecture = LecturePage(self.window)
+        self.page_lecture.setData("alif", "alif", "alif")
+        self.page_lecture.place(in_=self.window, x=0, y=0, relwidth=1, relheight=1)
+
+        # student page
+        self.page_student = StudentPage(self.window)
+        self.page_student.setData("alif", "alif", "alif")
+        self.page_student.place(in_=self.window, x=0, y=0, relwidth=1, relheight=1)
+
+        # submit page
+        self.page_submit = SubmitPage(self.window)
+        self.page_submit.setData("alif", "alif")
+        self.page_submit.place(in_=self.window, x=0, y=0, relwidth=1, relheight=1)        
+
+    def switch(self, page):
+        page.lift()
+
+    def handle_click(self, source):
+        pass
+
 
 # main loop
-switch(page_main)
-window.mainloop()
+app = App()
+app.window.mainloop()
