@@ -47,6 +47,7 @@ page_student.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
 page_submit = tk.Frame(window)
 tk.Label(page_submit, text="Kode Mata Kuliah: CS012").pack()
 tk.Label(page_submit, text="Jumlah Mahasiswa: 10").pack()
+tk.Button(page_submit, text="Kirim").pack()
 page_submit.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
 
 
@@ -56,5 +57,5 @@ def switch(page):
 # img = ImageTk.PhotoImage(Image.open(file_dir+"/logo_telu.png")) 
 
 # main loop
-switch(page_main)
+switch(page_submit)
 window.mainloop()
