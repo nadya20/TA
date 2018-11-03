@@ -12,13 +12,8 @@ window.title("TA Nadya")
 window.geometry("800x480")
 window.resizable(0,0)
 
-# page main
-page_main = tk.Frame(window)
-img = ImageTk.PhotoImage(Image.open(file_dir+"/logo_telu.jpg"))
-tk.Label(page_main, image=img).pack()
-tk.Label(page_main, text="Silahkan Masukkan Kartu Anda").pack()
-tk.Button(page_main, text="Kehadiran").pack()
-page_main.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
+def switch(page):
+    page.lift()
 
 # failed page
 page_failed = tk.Frame(window)
@@ -50,13 +45,17 @@ page_student.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
 page_submit = tk.Frame(window)
 tk.Label(page_submit, text="Kode Mata Kuliah: CS012").pack()
 tk.Label(page_submit, text="Jumlah Mahasiswa: 10").pack()
-tk.Button(page_submit, text="Kirim").pack()
+tk.Button(page_submit, command=lambda: switch(page_main), text="Kehadiran").pack()
 page_submit.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
 
-
-def switch(page):
-    page.lift()
+# page main
+page_main = tk.Frame(window)
+img = ImageTk.PhotoImage(Image.open(file_dir+"/logo_telu.jpg"))
+tk.Label(page_main, image=img).pack()
+tk.Label(page_main, text="Silahkan Masukkan Kartu Anda").pack()
+tk.Button(page_main, command=lambda: switch(page_submit), text="Kehadiran").pack()
+page_main.place(in_=window, x=0, y=0, relwidth=1, relheight=1)
 
 # main loop
-switch(page_success)
+switch(page_main)
 window.mainloop()
