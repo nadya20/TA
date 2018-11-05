@@ -210,6 +210,7 @@ def readStudent(cardResquest):
     nim = __readStudentId(cardResquest)
     courses = __readStudentCourse(cardResquest)
 
+    print nim, courses
     return Student(nim, courses)
 
 
