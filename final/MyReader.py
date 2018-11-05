@@ -38,4 +38,4 @@ def logCurrentCourse(course, attendanceCount):
 
 
 if __name__ == "__main__":
-    isStudent()
+    print isStudent()
