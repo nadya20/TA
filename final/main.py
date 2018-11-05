@@ -32,7 +32,13 @@ class App(object):
         self.window.resizable(0,0)
 
         self.create_pages()
-        self.page_student.lift() # select first page
+        self.page_main.lift() # select first page
+
+        self.worker = threading.Thread(target=self.process_card)
+        self.worker.start()
+
+    def process_card(self):
+        print 1000
 
     def create_pages(self):
         # page main
