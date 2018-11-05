@@ -330,9 +330,14 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
     return data.isSuccess
 
 
+def createCardReq(cardAtrType):    
+    cardtype = ATRCardType(cardAtrType)
+    cardrequest = CardRequest(timeout=None, cardType=cardtype)
+    return cardrequest
+
+
 if __name__ == "__main__":
-    cardtypeSc = ATRCardType(Person.ATR)
-    cardrequestSc = CardRequest(timeout=None, cardType=cardtypeSc)
+    cardrequestSc = createCardReq(Person.ATR)
 
     # lecture = readLecture(cardrequestSc)
     # if (lecture != None):
@@ -347,7 +352,6 @@ if __name__ == "__main__":
     else:
         print "bukan mahasiswa cuk"
 
-    # cardtypeSam = ATRCardType(Sam.ATR)
-    # cardrequestSam = CardRequest(timeout=None, cardType=cardtypeSam)
+    cardrequestSam = createCardReq(Sam.ATR)
 
     # print writeStudentCourse(cardrequestSc, cardrequestSam, 2, 10)

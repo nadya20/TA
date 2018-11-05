@@ -1,25 +1,27 @@
+import CardReader as cr
+
+def waitUntilLectureCome():
+    pass
+
 def isLecture():
-    readResult = False
+    cardReq = cr.createCardReq(cr.Person.ATR)
+    readResult = cr.readLecture(cardResquest)
 
-    # logic to get data
-    return readResult
+    return isinstance(readResult, cr.Lecture), readResult
 
-def readData(isDosen):
-    # logic to read data
+def isStudent():
+    cardReq = cr.createCardReq(cr.Person.ATR)
+    readResult = cr.readStudent(cardResquest)
 
-    name = "alif" # empty on student
-    id = "1103132163"
-    courses = [Course("CS0121", "90"), Course("CS0121", "90")] # only one on lecture
-
-    return name, id, courses
+    return isinstance(readResult, cr.Student), readResult
 
 
-def confirmCourseMatch(lectureCourse, studentCourses):
-    for idx, course in enumerate(studentCourses):
-        if lectureCourse.subject == course.subject:
-            return idx
+def confirmCourseMatch(lecture, student):
+    for idx, course in enumerate(student.courses):
+        if lecture.subject == course.subject:
+            return True, idx
     
-    return -1 # not found
+    return False, -1 # not found
 
 
 def logCurrentCourse(course, attendanceCount):

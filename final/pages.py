@@ -18,13 +18,17 @@ class MainPage(Page):
         self.img = ImageTk.PhotoImage(Image.open(file_dir))
         tk.Label(self, image=self.img).pack()
         tk.Label(self, text="Silahkan Masukkan Kartu Anda").pack()
+
+        self.button_submit = tk.Button(self, command=lambda: on_click(self), text="Kehadiran")
+        self.button_submit.pack()
     
-    def show_button(self, should_show):
-        self.button_submit = tk.Button(self, command=lambda: on_click(self), text="Kehadiran").pack()
-        if should_show:
-            self.button_submit.lift(self)
-        else:
-            self.button_submit.lower(self)
+    def toggle_button(self):
+        # TODO : Fix this
+        pass
+        # if self.is_button_showed:
+        #     self.button_submit.lower(self)
+        # else:
+        #     self.button_submit.lift(self)
         
 class FailedPage(Page):
     def __init__(self, *args, **kwargs):
@@ -74,15 +78,16 @@ class StudentPage(Page):
         tk.Label(self, textvariable=self.courseText).pack()
         tk.Label(self, textvariable=self.presenceText).pack()
     
-    def setData(self, nim, course, presence):
+    def setData(self, nim, courses, index):
         self.nimText.set("NIM: " + nim)
-        self.courseText.set("Kode Mata Kuliah: " + course)
-        self.presenceText.set("Presensi: " + presence)
+        if index > -1:
+            self.courseText.set("Kode Mata Kuliah: " + courses[index].subject)
+            self.presenceText.set("Presensi: " + courses[index].attendance)
 
 class SubmitPage(Page):
     def __init__(self, *args, **kwargs):
         on_click = args[1]
-        Page.__init__(self, *args, **kwargs)
+        Page.__init__(self, *args[:1], **kwargs)
         self.courseText = tk.StringVar()
         self.totalStudentText = tk.StringVar()
 
