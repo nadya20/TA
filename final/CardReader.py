@@ -210,8 +210,10 @@ def readStudent(cardResquest):
     nim = __readStudentId(cardResquest)
     courses = __readStudentCourse(cardResquest)
 
-    print nim, courses
-    return Student(nim, courses)
+    if nim is not None and courses is not None:
+        return Student(nim, courses)
+    else:
+        return None
 
 
 def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAttendance):
