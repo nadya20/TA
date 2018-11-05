@@ -8,7 +8,7 @@ def isLecture():
         cardReq = cr.createCardReq(cr.Person.ATR)
         readResult = cr.readLecture(cardReq)    
         return isinstance(readResult, cr.Lecture), readResult
-    except error:
+    except:
         print "card removed"
         return False, None
 
@@ -19,7 +19,7 @@ def isStudent():
         readResult = cr.readStudent(cardReq)
 
         return isinstance(readResult, cr.Student), readResult
-    except error:
+    except:
         print "card removed"
         return False, None
 
