@@ -109,7 +109,7 @@ class App(object):
                 self.state.student = None
 
             if self.state.lecture is not None:
-                self.page_submit.setData(self.state.lecture_course, self.state.total_student)
+                self.page_submit.setData(self.state.lecture.subject, self.state.total_student)
 
         self.worker = threading.Thread(target=self.process_card)
         self.worker.start()
