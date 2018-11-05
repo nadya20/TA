@@ -94,6 +94,7 @@ class App(object):
                 self.page_lecture.setData(self.state.lecture.name, self.state.lecture.id, self.state.lecture.subject)
                 self.window.after(5000, lambda: self.switch(self.page_lecture))
                 self.window.after(10000, lambda: self.switch(self.page_main))
+                self.state.wait_for == STUDENT
 
             elif self.state.wait_for == LECTURE and self.state.lecture is None:
                 self.switch(self.page_failed)
