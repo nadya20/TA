@@ -41,7 +41,7 @@ class App(object):
             isLecture, result = MyReader.isLecture() # blocking process
             if isLecture: self.state.lecture = result
         elif self.state.wait_for == STUDENT:
-            isStudent, result = MyReader.isStudent() # blocking process
+            isStudent, result = MyReader.iquitsStudent() # blocking process
             if isStudent: 
                 isMatch, idx = MyReader.confirmCourseMatch(self.state.lecture, student)
                 if isMatch:
@@ -52,7 +52,7 @@ class App(object):
             # stop
             print "Exit App"
 
-        self.window.after(100, self.check_for_state_change)
+        self.window.after(100, lambda: self.check_for_state_change())
 
     def create_pages(self):
         # page main
@@ -83,7 +83,7 @@ class App(object):
     def switch(self, page):
         page.show()
 
-    def check_for_state_change(first_time = False):
+    def check_for_state_change(self, first_time = False):
         if not first_time:
             if self.wait_for == LECTURE and self.state.lecture is not None:
                 self.switch(self.page_success)
