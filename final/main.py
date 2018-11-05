@@ -21,6 +21,9 @@ class AppState(object):
         self.total_student = 0
 
         self.wait_for = LECTURE
+    
+    def __repr__(self):
+        return str(self.lecture) + "\n" + str(self.student) + "\n" + str(self.student_course_index) + "\n" + self.wait_for
 
 class App(object):
     def __init__(self):
@@ -84,6 +87,7 @@ class App(object):
         page.show()
 
     def check_for_state_change(self, first_time = False):
+        print self.state
         if not first_time:
             if self.wait_for == LECTURE and self.state.lecture is not None:
                 self.switch(self.page_success)

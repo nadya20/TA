@@ -45,6 +45,9 @@ class Lecture(Person):
         self.name = name
         self.subject = subject
 
+    def __repr__(self):
+        return self.id + " " + self.name + " " + self.subject
+
 class Student(Person):
     DF_SC = [0x50, 0x00]
     READ = [0x00, 0xB0, 0x00, 0x00]
@@ -62,6 +65,8 @@ class Student(Person):
         LENGTH = [0x48]
         LENGTH_WRITE = [0x03]
 
+    def __repr__(self):
+        return self.id + " " + str(self.courses)
 
 class Sam(Card):
     ATR = toBytes("3B 10 96")
