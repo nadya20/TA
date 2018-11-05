@@ -4,16 +4,24 @@ def waitUntilLectureCome():
     pass
 
 def isLecture():
-    cardReq = cr.createCardReq(cr.Person.ATR)
-    readResult = cr.readLecture(cardReq)
+    try:
+        cardReq = cr.createCardReq(cr.Person.ATR)
+        readResult = cr.readLecture(cardReq)    
+        return isinstance(readResult, cr.Lecture), readResult
+    except error:
+        print "card removed"
+        return False, None
 
-    return isinstance(readResult, cr.Lecture), readResult
 
 def isStudent():
-    cardReq = cr.createCardReq(cr.Person.ATR)
-    readResult = cr.readStudent(cardReq)
+    try:
+        cardReq = cr.createCardReq(cr.Person.ATR)
+        readResult = cr.readStudent(cardReq)
 
-    return isinstance(readResult, cr.Student), readResult
+        return isinstance(readResult, cr.Student), readResult
+    except error:
+        print "card removed"
+        return False, None
 
 
 def confirmCourseMatch(lecture, student):
