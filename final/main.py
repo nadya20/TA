@@ -96,6 +96,7 @@ class App(object):
                 self.window.after(5000, lambda: self.switch(self.page_lecture))
                 self.window.after(10000, lambda: self.switch(self.page_main))
                 self.state.wait_for = STUDENT
+                time.sleep(15)
 
             elif self.state.wait_for == LECTURE and self.state.lecture is None:
                 self.switch(self.page_failed)
@@ -106,6 +107,7 @@ class App(object):
                 self.page_student.setData(self.state.student.id, self.state.student.courses, self.state.student_course_index)
                 self.window.after(5000, lambda: self.switch(self.page_student))
                 self.window.after(10000, lambda: self.switch(self.page_main))
+                time.sleep(15)
 
             elif self.state.wait_for == STUDENT and self.state.student is None:
                 self.switch(self.page_failed)
