@@ -37,3 +37,5 @@ def logCurrentCourse(course, attendanceCount):
     pass
 
 
+if __name__ == "__main__":
+    isStudent()
