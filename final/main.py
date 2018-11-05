@@ -127,8 +127,7 @@ class App(object):
         self.worker.start()
 
     def handle_click(self, source):
-        print isinstance(self, MainPage)
-        if isinstance(self, MainPage):
+        if isinstance(source, MainPage):
             self.switch(self.page_submit)
         else:
             # TODO : Store data
