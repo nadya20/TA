@@ -165,7 +165,7 @@ def __readStudentCourse(cardResquest):
     chunks = [ data.response [i*9 : i*9 + 9] for i in range(8)]
     courses = [__splitCourse(chunk) for chunk in chunks]
 
-    serviceSc.connection.disconnect()
+    service.connection.disconnect()
     return courses
 
 
