@@ -67,6 +67,8 @@ class LecturePage(Page):
         # self.master.update()
 
 class StudentPage(Page):
+    MAX_ATTENDANCE = 14
+
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
         self.nimText = tk.StringVar()
@@ -81,8 +83,9 @@ class StudentPage(Page):
     def setData(self, nim, courses, index):
         self.nimText.set("NIM: " + nim)
         if index > -1:
+            count_attendace = courses[index].attendance / MAX_ATTENDANCE * 100%
             self.courseText.set("Kode Mata Kuliah: " + courses[index].subject)
-            self.presenceText.set("Presensi: " + courses[index].attendance)
+            self.presenceText.set("Presensi: " + str(count_attendace))
 
 class SubmitPage(Page):
     def __init__(self, *args, **kwargs):
