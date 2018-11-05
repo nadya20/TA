@@ -97,7 +97,6 @@ def __transmit(cardService, apduSelect, expectedSw1):
 def __splitCourse(chunk):
     course = hl2bs(chunk[:-3])
     temp_attendace = hl2bs(chunk[-3:])
-    print course, temp_attendace
     attendace = int(temp_attendace) if temp_attendace.isdigit() else 0
     return Course(course, attendace)
 

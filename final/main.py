@@ -54,7 +54,6 @@ class App(object):
         elif self.state.wait_for == STUDENT:
             isStudent, result = MyReader.isStudent() # blocking process
             if isStudent: 
-                print self.state.lecture, result
                 isMatch, idx = MyReader.confirmCourseMatch(self.state.lecture, result)
                 if isMatch:
                     self.state.student = result
