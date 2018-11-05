@@ -98,4 +98,4 @@ class SubmitPage(Page):
 
     def setData(self, course, total):
         self.courseText.set("Kode Mata Kuliah: " + course)
-        self.totalStudentText.set("Jumlah Mahasiswa: " + total)
+        self.totalStudentText.set("Jumlah Mahasiswa: " + str(total))
