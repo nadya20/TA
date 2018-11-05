@@ -130,7 +130,7 @@ def __readStudentId(cardResquest):
     # DATA
     NIM = hl2bs(data.response[:10])
 
-    serviceSc.connection.disconnect()
+    service.connection.disconnect()
     return NIM
 
 
