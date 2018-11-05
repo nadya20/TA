@@ -44,7 +44,7 @@ class App(object):
             isLecture, result = MyReader.isLecture() # blocking process
             if isLecture: self.state.lecture = result
         elif self.state.wait_for == STUDENT:
-            isStudent, result = MyReader.iquitsStudent() # blocking process
+            isStudent, result = MyReader.isStudent() # blocking process
             if isStudent: 
                 isMatch, idx = MyReader.confirmCourseMatch(self.state.lecture, student)
                 if isMatch:
