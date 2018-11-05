@@ -91,21 +91,21 @@ class App(object):
         if not first_time:
             if self.state.wait_for == LECTURE and self.state.lecture is not None:
                 self.switch(self.page_success)
-                self.window.after(10000, lambda: self.switch(self.page_main))
+                self.window.after(5000, lambda: self.switch(self.page_main))
                 self.page_lecture.setData(self.state.lecture.name, self.state.lecture.id, self.state.lecture.subject)
 
             elif self.state.wait_for == LECTURE and self.state.lecture is None:
                 self.switch(self.page_failed)
-                self.window.after(10000, lambda: self.switch(self.page_main))
+                self.window.after(5000, lambda: self.switch(self.page_main))
 
             elif self.state.wait_for == STUDENT and self.state.student is not None:
                 self.switch(self.page_success)
-                self.window.after(10000, lambda: self.switch(self.page_main))
+                self.window.after(5000, lambda: self.switch(self.page_main))
                 self.page_student.setData(self.state.student.id, self.state.student.courses, self.state.student_course_index)
 
             elif self.state.wait_for == STUDENT and self.state.student is None:
                 self.switch(self.page_failed)
-                self.window.after(10000, lambda: self.switch(self.page_main))
+                self.window.after(5000, lambda: self.switch(self.page_main))
                 self.state.student = None
 
             if self.state.lecture is not None:

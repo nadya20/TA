@@ -202,7 +202,7 @@ def readLecture(cardResquest):
     # [-14:48] is empty
     MATKUL = hl2bs(data.response[48:])
 
-    serviceSc.connection.disconnect()
+    service.connection.disconnect()
     return Lecture(NIP, NAMA, MATKUL)
 
 
