@@ -83,9 +83,9 @@ class StudentPage(Page):
     def setData(self, nim, courses, index):
         self.nimText.set("NIM: " + nim)
         if index > -1:
-            count_attendace = courses[index].attendance / MAX_ATTENDANCE * 100%
+            count_attendace = courses[index].attendance / MAX_ATTENDANCE * 100
             self.courseText.set("Kode Mata Kuliah: " + courses[index].subject)
-            self.presenceText.set("Presensi: " + str(count_attendace))
+            self.presenceText.set("Presensi: " + str(count_attendace) + " %")
 
 class SubmitPage(Page):
     def __init__(self, *args, **kwargs):
