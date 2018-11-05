@@ -5,13 +5,13 @@ def waitUntilLectureCome():
 
 def isLecture():
     cardReq = cr.createCardReq(cr.Person.ATR)
-    readResult = cr.readLecture(cardResquest)
+    readResult = cr.readLecture(cardReq)
 
     return isinstance(readResult, cr.Lecture), readResult
 
 def isStudent():
     cardReq = cr.createCardReq(cr.Person.ATR)
-    readResult = cr.readStudent(cardResquest)
+    readResult = cr.readStudent(cardReq)
 
     return isinstance(readResult, cr.Student), readResult
 
