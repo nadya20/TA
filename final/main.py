@@ -51,7 +51,7 @@ class App(object):
                 if isMatch:
                     self.state.student = result
                     self.state.student_course_index = idx
-                    self.total_student += 1
+                    self.state.total_student += 1
         else:
             # stop
             print "Exit App"
