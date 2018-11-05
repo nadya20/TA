@@ -22,7 +22,7 @@ class AppState(object):
 
         self.wait_for = LECTURE
     
-    def reset():
+    def reset(self):
         self.lecture = None
         self.student = None
         self.student_course_index = -1
