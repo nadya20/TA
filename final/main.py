@@ -22,6 +22,14 @@ class AppState(object):
 
         self.wait_for = LECTURE
     
+    def reset():
+        self.lecture = None
+        self.student = None
+        self.student_course_index = -1
+        self.total_student = 0
+
+        self.wait_for = LECTURE
+    
     def __repr__(self):
         return str(self.lecture) + "\n" + str(self.student) + "\n" + str(self.student_course_index) + "\n" + self.wait_for
 
@@ -119,7 +127,12 @@ class App(object):
         self.worker.start()
 
     def handle_click(self, source):
-        pass
+        if isinstance(self, MainPage):
+            self.switch(self.page_submit)
+        else:
+            # TODO : Store data
+            self.state.reset()
+            self.switch(self.page_main)
 
 
 # main loop
