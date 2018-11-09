@@ -38,11 +38,11 @@ def logCurrentCourse(course, attendanceCount):
 
 
 if __name__ == "__main__":
-    isLecture, lecture = isLecture() # blocking process
+    isLec, lecture = isLecture() # blocking process
 
     student = None
     while student == None:
-        isStudent, student = isStudent() # blocking process
+        isStu, student = isStudent() # blocking process
 
     found, idx = confirmCourseMatch(lecture, student)
 
