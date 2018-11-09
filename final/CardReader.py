@@ -346,19 +346,19 @@ def createCardReq(cardAtrType):
 if __name__ == "__main__":
     cardrequestSc = createCardReq(Person.ATR)
 
-    # lecture = readLecture(cardrequestSc)
-    # if (lecture != None):
-    #     print lecture.id, lecture.name, lecture.subject
-    # else:
-    #     print "Bukan Dosen cuk"
-
-    student = readStudent(cardrequestSc)
-
-    if (student.id != None and student.courses != None):
-        print student.id, student.courses
+    lecture = readLecture(cardrequestSc)
+    if (lecture != None):
+        print lecture.id, lecture.name, lecture.subject
     else:
-        print "bukan mahasiswa cuk"
+        print "Bukan Dosen cuk"
 
-    cardrequestSam = createCardReq(Sam.ATR)
+    # student = readStudent(cardrequestSc)
+
+    # if (student.id != None and student.courses != None):
+    #     print student.id, student.courses
+    # else:
+    #     print "bukan mahasiswa cuk"
+
+    # cardrequestSam = createCardReq(Sam.ATR)
 
     # print writeStudentCourse(cardrequestSc, cardrequestSam, 2, 10)
