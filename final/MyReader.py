@@ -38,4 +38,9 @@ def logCurrentCourse(course, attendanceCount):
 
 
 if __name__ == "__main__":
-    print isStudent()
+    isLecture, lecture = isLecture() # blocking process
+    isStudent, student = isStudent() # blocking process
+
+    found, idx = confirmCourseMatch(lecture, student)
+
+    print cr.writeStudentCourse(cr.createCardReq(cr.Person.ATR), cr.createCardReq(cr.Sam.ATR), idx, student.courses[idx].attendance)
