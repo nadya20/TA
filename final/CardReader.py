@@ -354,7 +354,7 @@ if __name__ == "__main__":
 
     student = readStudent(cardrequestSc)
 
-    if (student.id != None and student.courses != None):
+    if (student != None and student.id != None and student.courses != None):
         print student.id, student.courses
     else:
         print "bukan mahasiswa cuk"
