@@ -1,2 +1,0 @@
-# TA
-tugas TA
