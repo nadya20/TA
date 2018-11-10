@@ -214,8 +214,9 @@ def readStudent(cardResquest):
     else:
         return None
 
-
-def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAttendance):
+# try to write to student card
+# add 10 as default value to current attendance
+def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAttendance, addedValue=10):
     serviceSc = cardResquestSc.waitforcard()
     serviceSc.connection.connect()
 
@@ -314,8 +315,8 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
 
     # Write to card BEGIN HERE
     # SAM encript
-    attendanceInHex = bs2hl(str(currentAttendance + 10)) # add 10 %
-    if (len(attendanceInHex) < 3): attendanceInHex = [0x30] + attendanceInHex
+    attendanceInHex = bs2hl(str(currentAttendance + addedValue))
+    attendanceInHex = [0x30]*(3-len(attendanceInHex)) + attendanceInHex # make sure 3 digit to write
 
     apdu = Sam.ENCRIPT + Student.Course.LENGTH_WRITE + attendanceInHex  ####### TO DO
     data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)

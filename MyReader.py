@@ -35,7 +35,12 @@ def confirmCourseMatch(lecture, student):
 def addStudentAttendance(student, courseIndex):
     personCardReq = cr.createCardReq(cr.Person.ATR)
     samCardReq = cr.createCardReq(cr.Sam.ATR)
-    return cr.writeStudentCourse(personCarReq, samCardReq, courseIndex, student.courses[courseIndex].attendance)
+
+    isWriteSuccess = cr.writeStudentCourse(personCarReq, samCardReq, courseIndex, student.courses[courseIndex].attendance, 1)
+    if isWriteSuccess:
+        return True, student.courses[courseIndex].attendance + 1
+    else:
+        return False, student.courses[courseIndex].attendance
 
 
 if __name__ == "__main__":
