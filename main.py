@@ -63,7 +63,8 @@ class App(object):
             # stop
             print "Exit App"
 
-        self.window.after(100, lambda: self.check_for_state_change())
+        self.check_for_state_change()
+        # self.window.after(100, lambda: self.check_for_state_change())
 
     def create_pages(self):
         # page main
