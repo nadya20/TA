@@ -97,50 +97,38 @@ class App(object):
 
     def check_for_state_change(self, first_time = False):
         print self.state
-        time_to_wait = 0
         if not first_time:
             if self.state.wait_for == LECTURE and self.state.lecture is not None:
                 self.switch(self.page_success)
                 self.page_lecture.setData(self.state.lecture.name, self.state.lecture.id, self.state.lecture.subject)
                 time.sleep(5)
                 self.switch(self.page_lecture)
-                # self.window.after(5000, lambda: self.switch(self.page_lecture))
                 time.sleep(5)
                 self.switch(self.page_main)
-                # self.window.after(10000, lambda: self.switch(self.page_main))
                 self.state.wait_for = STUDENT
-                # time_to_wait += 15
 
             elif self.state.wait_for == LECTURE and self.state.lecture is None:
                 self.switch(self.page_failed)
                 time.sleep(5)
                 self.switch(self.page_main)
-                # self.window.after(5000, lambda: self.switch(self.page_main))
-                # time_to_wait += 5
 
             elif self.state.wait_for == STUDENT and self.state.student is not None:
                 self.switch(self.page_success)
                 self.page_student.setData(self.state.student.id, self.state.student.courses, self.state.student_course_index)
                 time.sleep(5)
                 self.switch(self.page_student)
-                # self.window.after(5000, lambda: self.switch(self.page_student))
-                self.switch(self.page_main)
                 time.sleep(5)
-                # self.window.after(10000, lambda: self.switch(self.page_main))
-                # time_to_wait += 15
+                self.switch(self.page_main)
 
             elif self.state.wait_for == STUDENT and self.state.student is None:
                 self.switch(self.page_failed)
                 time.sleep(5)
                 self.switch(self.page_main)
-                # self.window.after(5000, lambda: self.switch(self.page_main))
                 self.state.student = None
-                # time_to_wait += 5
 
             if self.state.lecture is not None:
                 self.page_submit.setData(self.state.lecture.subject, self.state.total_student)
 
-        # time.sleep(time_to_wait) # block current thread until page finish reload
         self.worker = threading.Thread(target=self.process_card)
         self.worker.start()
 
