@@ -30,6 +30,10 @@ class AppState(object):
 
         self.wait_for = LECTURE
     
+    def resetStudent(self):
+        self.student = None
+        self.student_course_index = -1
+    
     def __repr__(self):
         return str(self.lecture) + "\n" + str(self.student) + "\n" + str(self.student_course_index) + "\n" + self.wait_for
 
@@ -112,19 +116,23 @@ class App(object):
                 time.sleep(5)
                 self.switch(self.page_main)
 
-            elif self.state.wait_for == STUDENT and self.state.student is not None:
-                self.page_student.setData(self.state.student.id, self.state.student.courses, self.state.student_course_index)
-                
+            elif self.state.wait_for == STUDENT and self.state.student is not None:                
                 # try to write attendance
                 isWriteSuccess, currAttendance = MyReader.addStudentAttendance(self.state.student, self.state.student_course_index)            
                 print "add attendance to card success:", isWriteSuccess, currAttendance 
-                
+            
                 if isWriteSuccess:
+                    self.state.student.courses[self.state.student_course_index].attendance = currAttendance # set new data
+                    self.page_student.setData(self.state.student.id, self.state.student.courses, self.state.student_course_index) # update data to pages
+
                     self.switch(self.page_success)
                     time.sleep(5)
 
                     self.switch(self.page_student)
                     time.sleep(5)
+
+                    self.state.resetStudent() # clear student data, wait for next one
+
                 else:
                     self.switch(self.page_failed)
                     time.sleep(5)
