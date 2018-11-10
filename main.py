@@ -113,11 +113,15 @@ class App(object):
                 self.switch(self.page_main)
 
             elif self.state.wait_for == STUDENT and self.state.student is not None:
-                self.switch(self.page_success)
                 self.page_student.setData(self.state.student.id, self.state.student.courses, self.state.student_course_index)
+                print "add attendance to card is success:", MyReader.addStudentAttendance(self.state.student, self.state.student_course_index)
+                
+                self.switch(self.page_success)
                 time.sleep(5)
+
                 self.switch(self.page_student)
                 time.sleep(5)
+
                 self.switch(self.page_main)
 
             elif self.state.wait_for == STUDENT and self.state.student is None:

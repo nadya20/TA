@@ -32,9 +32,10 @@ def confirmCourseMatch(lecture, student):
     return False, -1 # not found
 
 
-def logCurrentCourse(course, attendanceCount):
-    # logic to save it
-    pass
+def addStudentAttendance(student, courseIndex):
+    personCardReq = cr.createCardReq(cr.Person.ATR)
+    samCardReq = cr.createCardReq(cr.Sam.ATR)
+    return cr.writeStudentCourse(personCarReq, samCardReq, courseIndex, student.courses[courseIndex].attendance)
 
 
 if __name__ == "__main__":
