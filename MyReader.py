@@ -36,7 +36,7 @@ def addStudentAttendance(student, courseIndex):
     personCardReq = cr.createCardReq(cr.Person.ATR)
     samCardReq = cr.createCardReq(cr.Sam.ATR)
 
-    isWriteSuccess = cr.writeStudentCourse(personCarReq, samCardReq, courseIndex, student.courses[courseIndex].attendance, 1)
+    isWriteSuccess = cr.writeStudentCourse(personCardReq, samCardReq, courseIndex, student.courses[courseIndex].attendance, 1)
     if isWriteSuccess:
         return True, student.courses[courseIndex].attendance + 1
     else:
