@@ -72,7 +72,7 @@ class App(object):
 
     def create_pages(self):
         # page main
-        self.page_main = MainPage(self.window, file_dir+"/logo_telu.jpg", self.handle_click, bg="white")
+        self.page_main = MainPage(self.window, file_dir+"/logo_telu.jpg", self.handle_click)
         self.page_main.place(in_=self.window, x=0, y=0, relwidth=1, relheight=1)
         # self.page_main.toggle_button()
 
@@ -85,11 +85,11 @@ class App(object):
         self.page_success.place(in_=self.window, x=0, y=0, relwidth=1, relheight=1)
 
         # lecture page
-        self.page_lecture = LecturePage(self.window, file_dir+"/header.jpg", self.handle_click, bg="white")
+        self.page_lecture = LecturePage(self.window, file_dir+"/header.jpg", self.handle_click)
         self.page_lecture.place(in_=self.window, x=0, y=5, relwidth=1, relheight=1)
 
         # student page
-        self.page_student = StudentPage(self.window, file_dir+"/header.jpg", self.handle_click, bg="white")
+        self.page_student = StudentPage(self.window, file_dir+"/header.jpg", self.handle_click)
         self.page_student.place(in_=self.window, x=0, y=0, relwidth=1, relheight=1)
 
         # submit page
