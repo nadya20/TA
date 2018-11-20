@@ -54,9 +54,9 @@ class LecturePage(Page):
         self.course = tk.StringVar()
 
         # views
-        tk.Label(self, textvariable=self.nameText).pack()
-        tk.Label(self, textvariable=self.nipText).pack()
-        tk.Label(self, textvariable=self.course).pack()
+        tk.Label(self, textvariable=self.nameText, bg="white").pack()
+        tk.Label(self, textvariable=self.nipText, bg="white").pack()
+        tk.Label(self, textvariable=self.course, bg="white").pack()
     
     def setData(self, name, nip, course):
         self.nameText.set("Nama Dosen: " + name)
@@ -74,9 +74,9 @@ class StudentPage(Page):
         self.presenceText = tk.StringVar()
 
         # views
-        tk.Label(self, textvariable=self.nimText).pack()
-        tk.Label(self, textvariable=self.courseText).pack()
-        tk.Label(self, textvariable=self.presenceText).pack()
+        tk.Label(self, textvariable=self.nimText, bg="white").pack()
+        tk.Label(self, textvariable=self.courseText, bg="white").pack()
+        tk.Label(self, textvariable=self.presenceText, bg="white").pack()
     
     def setData(self, nim, courses, index):
         self.nimText.set("NIM: " + nim)
@@ -93,8 +93,8 @@ class SubmitPage(Page):
         self.totalStudentText = tk.StringVar()
 
         # view
-        tk.Label(self, textvariable=self.courseText).pack()
-        tk.Label(self, textvariable=self.totalStudentText).pack()
+        tk.Label(self, textvariable=self.courseText, bg="white").pack()
+        tk.Label(self, textvariable=self.totalStudentText, bg="white").pack()
         tk.Button(self, command=lambda: on_click(self), text="Kehadiran").pack()        
 
     def setData(self, course, total):
