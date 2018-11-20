@@ -76,7 +76,7 @@ class StudentPage(Page):
         # views
         tk.Label(self, textvariable=self.nimText, bg="white", font = "Times 16 bold").pack()
         tk.Label(self, textvariable=self.courseText, bg="white", font = "Times 16 bold").pack()
-        tk.Label(self, textvariable=self.presenceText, bg="white",f ont = "Times 16 bold").pack()
+        tk.Label(self, textvariable=self.presenceText, bg="white", font = "Times 16 bold").pack()
     
     def setData(self, nim, courses, index):
         self.nimText.set("NIM: " + nim)
