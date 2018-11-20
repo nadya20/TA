@@ -54,9 +54,9 @@ class LecturePage(Page):
         self.course = tk.StringVar()
 
         # views
-        tk.Label(self, textvariable=self.nameText, bg="white").pack()
-        tk.Label(self, textvariable=self.nipText, bg="white").pack()
-        tk.Label(self, textvariable=self.course, bg="white").pack()
+        tk.Label(self, textvariable=self.nameText, bg="white", font = "Times 16 bold").pack()
+        tk.Label(self, textvariable=self.nipText, bg="white", font = "Times 16 bold").pack()
+        tk.Label(self, textvariable=self.course, bg="white", font = "Times 16 bold").pack()
     
     def setData(self, name, nip, course):
         self.nameText.set("Nama Dosen: " + name)
@@ -74,9 +74,9 @@ class StudentPage(Page):
         self.presenceText = tk.StringVar()
 
         # views
-        tk.Label(self, textvariable=self.nimText, bg="white").pack()
-        tk.Label(self, textvariable=self.courseText, bg="white").pack()
-        tk.Label(self, textvariable=self.presenceText, bg="white").pack()
+        tk.Label(self, textvariable=self.nimText, bg="white", font = "Times 16 bold").pack()
+        tk.Label(self, textvariable=self.courseText, bg="white", font = "Times 16 bold").pack()
+        tk.Label(self, textvariable=self.presenceText, bg="white",f ont = "Times 16 bold").pack()
     
     def setData(self, nim, courses, index):
         self.nimText.set("NIM: " + nim)
@@ -93,9 +93,9 @@ class SubmitPage(Page):
         self.totalStudentText = tk.StringVar()
 
         # view
-        tk.Label(self, textvariable=self.courseText, bg="white").pack()
-        tk.Label(self, textvariable=self.totalStudentText, bg="white").pack()
-        tk.Button(self, command=lambda: on_click(self), text="Kehadiran").pack()        
+        tk.Label(self, textvariable=self.courseText, bg="white", font = "Times 16 bold").pack()
+        tk.Label(self, textvariable=self.totalStudentText, bg="white", font = "Times 16 bold").pack()
+        tk.Button(self, command=lambda: on_click(self), text="Kehadiran", font = "Times 16 bold").pack()        
 
     def setData(self, course, total):
         self.courseText.set("Kode Mata Kuliah: " + course)
