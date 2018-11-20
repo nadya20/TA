@@ -86,7 +86,7 @@ class App(object):
 
         # lecture page
         self.page_lecture = LecturePage(self.window, file_dir+"/header.jpg", self.handle_click)
-        self.page_lecture.place(in_=self.window, x=0, y=5, relwidth=1, relheight=1)
+        self.page_lecture.place(in_=self.window, x=0, y=80, relwidth=1, relheight=1)
 
         # student page
         self.page_student = StudentPage(self.window, file_dir+"/header.jpg", self.handle_click)
