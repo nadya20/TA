@@ -17,8 +17,6 @@ class MainPage(Page):
         # views
         self.img = ImageTk.PhotoImage(Image.open(file_dir))
         tk.Label(self, image=self.img).pack()
-        tk.Label(self, text="Silahkan Masukkan Kartu Anda").pack()
-
         self.button_submit = tk.Button(self, command=lambda: on_click(self), text="Kehadiran")
         self.button_submit.pack()
     
