@@ -85,7 +85,7 @@ class StudentPage(Page):
         if index > -1:
             count_attendace = courses[index].attendance / float(StudentPage.MAX_ATTENDANCE) * 100
             self.courseText.set("Kode Mata Kuliah: " + courses[index].subject)
-            self.presenceText.set("Presensi: " + "0:.2f".format(count_attendace) + " %")
+            self.presenceText.set("Presensi: " + "{0:.2f}".format(count_attendace) + " %")
 
 class SubmitPage(Page):
     def __init__(self, *args, **kwargs):
