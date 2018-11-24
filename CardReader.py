@@ -104,7 +104,7 @@ def __splitCourse(chunk):
 def __readStudentId(cardResquest):
     service = cardResquest.waitforcard()
     service.connection.connect()
-    
+    start=time.time()
     # Call MF 
     apdu = Card.SELECT + Person.MF_SC
     data = __transmit(service, apdu, Card.OPEN_SUCCESS)
@@ -166,12 +166,13 @@ def __readStudentCourse(cardResquest):
 
     service.connection.disconnect()
     return courses
-
+end=time.time()
+print 'time',(end-start)
 
 def readLecture(cardResquest):
     service = cardResquest.waitforcard()
     service.connection.connect()
-    
+    start=time.time()
     # Call MF 
     apdu = Card.SELECT + Lecture.MF_SC
     data = __transmit(service, apdu, Card.OPEN_SUCCESS)
@@ -203,7 +204,8 @@ def readLecture(cardResquest):
 
     service.connection.disconnect()
     return Lecture(NIP, NAMA, MATKUL)
-
+end=time.time()
+print 'time',(end-start)
 
 def readStudent(cardResquest):
     nim = __readStudentId(cardResquest)
@@ -222,7 +224,7 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
 
     serviceSam = cardResquestSam.waitforcard()
     serviceSam.connection.connect()
-
+start=time.time()
     # MF Sam call
     apdu = Card.SELECT + Card.MF_SC
     data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
@@ -336,7 +338,8 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
     serviceSc.connection.disconnect()
     serviceSam.connection.disconnect()
     return data.isSuccess
-
+end=time.time()
+print 'time',(end-start)
 
 def createCardReq(cardAtrType):    
     cardtype = ATRCardType(cardAtrType)
