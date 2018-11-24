@@ -100,11 +100,10 @@ def __splitCourse(chunk):
     attendace = int(temp_attendace) if temp_attendace.isdigit() else 0
     return Course(course, attendace)
 
-
+start=time.time()
 def __readStudentId(cardResquest):
     service = cardResquest.waitforcard()
     service.connection.connect()
-    start=time.time()
     # Call MF 
     apdu = Card.SELECT + Person.MF_SC
     data = __transmit(service, apdu, Card.OPEN_SUCCESS)
@@ -169,10 +168,10 @@ def __readStudentCourse(cardResquest):
 end=time.time()
 print 'time',(end-start)
 
+start=time.time()
 def readLecture(cardResquest):
     service = cardResquest.waitforcard()
     service.connection.connect()
-    start=time.time()
     # Call MF 
     apdu = Card.SELECT + Lecture.MF_SC
     data = __transmit(service, apdu, Card.OPEN_SUCCESS)
@@ -218,13 +217,13 @@ def readStudent(cardResquest):
 
 # try to write to student card
 # add 10 as default value to current attendance
+start=time.time()
 def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAttendance, addedValue=10):
     serviceSc = cardResquestSc.waitforcard()
     serviceSc.connection.connect()
 
     serviceSam = cardResquestSam.waitforcard()
     serviceSam.connection.connect()
-start=time.time()
     # MF Sam call
     apdu = Card.SELECT + Card.MF_SC
     data = __transmit(serviceSam, apdu, Card.OPEN_SUCCESS)
