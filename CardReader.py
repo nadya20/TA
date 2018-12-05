@@ -103,6 +103,7 @@ def __splitCourse(chunk):
 
 def __readStudentId(cardResquest):
     service = cardResquest.waitforcard()
+    start = time.time()
     service.connection.connect()
     # Call MF 
     apdu = Card.SELECT + Person.MF_SC
@@ -127,6 +128,8 @@ def __readStudentId(cardResquest):
 
     # DATA
     NIM = hl2bs(data.response[:10])
+    end = time.time()
+    print '__readStudentId:time', (end-start)
 
     service.connection.disconnect()
     return NIM
@@ -134,6 +137,7 @@ def __readStudentId(cardResquest):
 
 def __readStudentCourse(cardResquest):
     service = cardResquest.waitforcard()
+    start = time.time()
     service.connection.connect()
     
     # Call MF 
@@ -163,12 +167,17 @@ def __readStudentCourse(cardResquest):
     chunks = [ data.response [i*9 : i*9 + 9] for i in range(8)]
     courses = [__splitCourse(chunk) for chunk in chunks]
 
+    end = time.time()
+    print '__readStudentCourse:time', (end-start)
+
     service.connection.disconnect()
     return courses
 
 
 def readLecture(cardResquest):
     service = cardResquest.waitforcard()
+
+    start = time.time()
     service.connection.connect()
     # Call MF 
     apdu = Card.SELECT + Lecture.MF_SC
@@ -199,6 +208,9 @@ def readLecture(cardResquest):
     # [-14:48] is empty
     MATKUL = hl2bs(data.response[48:])
 
+    end = time.time()
+    print 'readLecture:time', (end-start)
+
     service.connection.disconnect()
     return Lecture(NIP, NAMA, MATKUL)
 
@@ -217,6 +229,8 @@ def readStudent(cardResquest):
 
 def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAttendance, addedValue=10):
     serviceSc = cardResquestSc.waitforcard()
+
+    start = time.time()
     serviceSc.connection.connect()
 
     serviceSam = cardResquestSam.waitforcard()
@@ -330,6 +344,9 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
 
     apdu = Sam.WRITE2 + [0x00, courseIndex * 9 + 6] + [lengthu+1] + Student.Course.LENGTH_WRITE + data.response
     data = __transmit(serviceSc, apdu, Card.READ_SUCCESS)
+
+    end = time.time()
+    print 'writeStudentCourse:time', (end-start)
 
     serviceSc.connection.disconnect()
     serviceSam.connection.disconnect()

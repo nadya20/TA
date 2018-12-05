@@ -25,9 +25,13 @@ def isStudent():
 
 
 def confirmCourseMatch(lecture, student):
+    start = time.time()
     for idx, course in enumerate(student.courses):
         if lecture.subject == course.subject:
             return True, idx
+
+    end = time.time()
+    print 'confirmCourseMatch:time', (end-start)
     
     return False, -1 # not found
 
