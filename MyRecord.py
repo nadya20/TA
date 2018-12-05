@@ -4,7 +4,7 @@ import os.path
 class Recorder(object):
     def __init__(self, cur_dir):
         self.filename = cur_dir + "/logs/" + str(datetime.now()) + ".csv"
-        _file = open(filename, "a")
+        _file = open(self.filename, "a")
         head = "time;lecturer;total attendance\n"
         _file.writelines(head)
         _file.close()
