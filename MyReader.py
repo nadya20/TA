@@ -1,4 +1,5 @@
 import CardReader as cr
+import time
 
 def waitUntilLectureCome():
     pass
