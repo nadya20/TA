@@ -100,7 +100,7 @@ def __splitCourse(chunk):
     attendace = int(temp_attendace) if temp_attendace.isdigit() else 0
     return Course(course, attendace)
 
-start=time.time()
+
 def __readStudentId(cardResquest):
     service = cardResquest.waitforcard()
     service.connection.connect()
@@ -165,10 +165,8 @@ def __readStudentCourse(cardResquest):
 
     service.connection.disconnect()
     return courses
-end=time.time()
-print 'time',(end-start)
 
-start=time.time()
+
 def readLecture(cardResquest):
     service = cardResquest.waitforcard()
     service.connection.connect()
@@ -203,8 +201,7 @@ def readLecture(cardResquest):
 
     service.connection.disconnect()
     return Lecture(NIP, NAMA, MATKUL)
-end=time.time()
-print 'time',(end-start)
+
 
 def readStudent(cardResquest):
     nim = __readStudentId(cardResquest)
@@ -217,7 +214,7 @@ def readStudent(cardResquest):
 
 # try to write to student card
 # add 10 as default value to current attendance
-start=time.time()
+
 def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAttendance, addedValue=10):
     serviceSc = cardResquestSc.waitforcard()
     serviceSc.connection.connect()
@@ -337,8 +334,7 @@ def writeStudentCourse(cardResquestSc, cardResquestSam, courseIndex, currentAtte
     serviceSc.connection.disconnect()
     serviceSam.connection.disconnect()
     return data.isSuccess
-end=time.time()
-print 'time',(end-start)
+
 
 def createCardReq(cardAtrType):    
     cardtype = ATRCardType(cardAtrType)

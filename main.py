@@ -101,19 +101,20 @@ class App(object):
 
     def check_for_state_change(self, first_time = False):
         print self.state
+        #start=time.time()
         if not first_time:
             if self.state.wait_for == LECTURE and self.state.lecture is not None:
                 self.switch(self.page_success)
                 self.page_lecture.setData(self.state.lecture.name, self.state.lecture.id, self.state.lecture.subject)
-                time.sleep(5)
+                time.sleep(1)
                 self.switch(self.page_lecture)
-                time.sleep(5)
+                time.sleep(1)
                 self.switch(self.page_main)
                 self.state.wait_for = STUDENT
 
             elif self.state.wait_for == LECTURE and self.state.lecture is None:
                 self.switch(self.page_failed)
-                time.sleep(5)
+                time.sleep(1)
                 self.switch(self.page_main)
 
             elif self.state.wait_for == STUDENT and self.state.student is not None:                
@@ -122,34 +123,39 @@ class App(object):
                 print "add attendance to card success:", isWriteSuccess, currAttendance 
             
                 if isWriteSuccess:
+                    #start=time.time()
                     self.state.student.courses[self.state.student_course_index].attendance = currAttendance # set new data
                     self.page_student.setData(self.state.student.id, self.state.student.courses, self.state.student_course_index) # update data to pages
 
                     self.switch(self.page_success)
-                    time.sleep(5)
+                    time.sleep(1)
 
                     self.switch(self.page_student)
-                    time.sleep(5)
+                    time.sleep(1)
 
                     self.state.resetStudent() # clear student data, wait for next one
-
+                    #end=time.time()
+                    #print 'time',(end-start)
                 else:
                     self.switch(self.page_failed)
-                    time.sleep(5)
+                    time.sleep(1)
 
                 self.switch(self.page_main)
+                
 
             elif self.state.wait_for == STUDENT and self.state.student is None:
                 self.switch(self.page_failed)
-                time.sleep(5)
+                time.sleep(1)
                 self.switch(self.page_main)
                 self.state.student = None
 
             if self.state.lecture is not None:
                 self.page_submit.setData(self.state.lecture.subject, self.state.total_student)
+            
 
         self.worker = threading.Thread(target=self.process_card)
         self.worker.start()
+        
 
     def handle_click(self, source):
         if isinstance(source, MainPage):
@@ -161,6 +167,9 @@ class App(object):
 
 
 # main loop
+start=time.time()
 app = App()
 app.switch(app.page_main) # select first page
 app.window.mainloop()
+end=time.time()
+print 'time',(end-start)
