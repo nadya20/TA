@@ -42,7 +42,7 @@ class App(object):
     def __init__(self):
 
         self.state = AppState()
-        self.recorder = Recorder()
+        self.recorder = Recorder(file_dir)
 
         # window setup
         self.window = tk.Tk()
