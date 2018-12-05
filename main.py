@@ -7,6 +7,7 @@ import threading
 import time
 from pages import *
 import MyReader
+from MyRecord import Recorder
 
 file_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -41,6 +42,7 @@ class App(object):
     def __init__(self):
 
         self.state = AppState()
+        self.recorder = Recorder()
 
         # window setup
         self.window = tk.Tk()
@@ -156,6 +158,7 @@ class App(object):
             self.switch(self.page_submit)
         else:
             # TODO : Store data
+            self.recorder.storeCurrentData(state.lecture, state.total_student)
             self.state.reset()
             self.switch(self.page_main)
 
