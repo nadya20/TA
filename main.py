@@ -164,7 +164,7 @@ class App(object):
             self.switch(self.page_submit)
         else:
             # TODO : Store data
-            self.recorder.storeCurrentData(state.lecture, state.total_student)
+            self.recorder.storeCurrentData(self.state.lecture, self.state.total_student)
             self.state.reset()
             self.switch(self.page_main)
 
