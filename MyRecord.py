@@ -19,7 +19,7 @@ class Recorder(object):
         _file.close()
 
         end = time.time()
-        print 'storeCurrentData:time', (end-start)
+        print 'storeCurrentData:time,', (end-start)
 
 if __name__ == "__main__":
     file_dir = os.path.dirname(os.path.abspath(__file__))

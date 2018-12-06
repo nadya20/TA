@@ -32,7 +32,7 @@ def confirmCourseMatch(lecture, student):
             return True, idx
 
     end = time.time()
-    print 'confirmCourseMatch:time', (end-start)
+    print 'confirmCourseMatch:time,', (end-start)
     
     return False, -1 # not found
 

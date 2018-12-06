@@ -1,4 +1,4 @@
 #!/bin/bash
 
 curdir=${0%/*}
-python $curdir/main.py
+python $curdir/main.py > timing_measure.csv
