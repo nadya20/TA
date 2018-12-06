@@ -10,7 +10,7 @@ def isLecture():
         readResult = cr.readLecture(cardReq)    
         return isinstance(readResult, cr.Lecture), readResult
     except:
-        print "card removed"
+        # print "card removed"
         return False, None
 
 
@@ -21,7 +21,7 @@ def isStudent():
 
         return isinstance(readResult, cr.Student), readResult
     except:
-        print "card removed"
+        # print "card removed"
         return False, None
 
 

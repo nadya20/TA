@@ -66,8 +66,9 @@ class App(object):
                     self.state.student_course_index = idx
                     self.state.total_student += 1
         else:
+            pass
             # stop
-            print "Exit App"
+            # print "Exit App"
 
         self.check_for_state_change()
         # self.window.after(100, lambda: self.check_for_state_change())
@@ -102,7 +103,7 @@ class App(object):
         page.show()
 
     def check_for_state_change(self, first_time = False):
-        print self.state
+        # print self.state
         #start=time.time()
         if not first_time:
             if self.state.wait_for == LECTURE and self.state.lecture is not None:
@@ -122,7 +123,7 @@ class App(object):
             elif self.state.wait_for == STUDENT and self.state.student is not None:                
                 # try to write attendance
                 isWriteSuccess, currAttendance = MyReader.addStudentAttendance(self.state.student, self.state.student_course_index)            
-                print "add attendance to card success:", isWriteSuccess, currAttendance 
+                # print "add attendance to card success:", isWriteSuccess, currAttendance 
             
                 if isWriteSuccess:
                     #start=time.time()
@@ -170,9 +171,9 @@ class App(object):
 
 
 # main loop
-start=time.time()
+# start=time.time()
 app = App()
 app.switch(app.page_main) # select first page
 app.window.mainloop()
 end=time.time()
-print 'time',(end-start)
+# print 'time',(end-start)
